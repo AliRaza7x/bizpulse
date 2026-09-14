@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: bizpulse-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-bizpulse_root_pw}
+      MYSQL_DATABASE: ${DB_NAME:-bizpulse}
+    ports:
+      - "3306:3306"
+    volumes:
+      - bizpulse_mysql_data:/var/lib/mysql
+
+  adminer:
+    image: adminer:latest
+    container_name: bizpulse-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+
+volumes:
+  bizpulse_mysql_data:

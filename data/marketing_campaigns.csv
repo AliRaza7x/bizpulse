@@ -1,0 +1,26 @@
+campaign_id,campaign_name,platform,start_date,end_date,budget,objective,target_segment
+CMP001,Winter Accessories Push,Google Ads,2026-08-26,2026-09-03,67449.58,Traffic,VIP
+CMP002,New Arrivals Footwear Push,Instagram Ads,2026-07-08,2026-08-02,30385.06,Engagement,VIP
+CMP003,Flash Electronics Push,Instagram Ads,2026-08-12,2026-08-26,38667.32,Brand Awareness,Returning
+CMP004,Summer Home & Living Push,Google Ads,2026-06-18,2026-07-16,103253.58,Traffic,New
+CMP005,Clearance Accessories Push,TikTok Ads,2026-07-12,2026-07-30,105095.46,Engagement,Returning
+CMP006,Flash Apparel Push,Instagram Ads,2026-06-11,2026-06-30,60297.82,Brand Awareness,VIP
+CMP007,Winter Apparel Push,TikTok Ads,2026-06-23,2026-07-22,44799.66,Conversions,VIP
+CMP008,Winter Footwear Push,Google Ads,2026-08-20,2026-09-11,36755.66,Traffic,VIP
+CMP009,New Arrivals Beauty Push,Instagram Ads,2026-06-18,2026-07-16,96095.98,Conversions,Returning
+CMP010,Summer Electronics Push,Google Ads,2026-08-25,2026-09-15,111192.17,Conversions,Returning
+CMP011,Flash Footwear Push,Instagram Ads,2026-06-27,2026-07-27,24163.17,Brand Awareness,VIP
+CMP012,Eid Accessories Push,TikTok Ads,2026-07-20,2026-08-04,145270.69,Brand Awareness,VIP
+CMP013,Flash Apparel Push,Instagram Ads,2026-06-29,2026-07-09,114351.97,Traffic,VIP
+CMP014,Flash Electronics Push,Google Ads,2026-08-17,2026-09-14,18093.92,Engagement,New
+CMP015,Summer Home & Living Push,Google Ads,2026-06-19,2026-07-13,102560.12,Brand Awareness,VIP
+CMP016,Winter Apparel Push,Instagram Ads,2026-07-04,2026-07-31,73364.15,Brand Awareness,VIP
+CMP017,Summer Beauty Push,TikTok Ads,2026-06-14,2026-07-11,136861.21,Brand Awareness,VIP
+CMP018,Eid Apparel Push,Facebook Ads,2026-07-08,2026-07-18,49132.86,Engagement,New
+CMP019,Clearance Footwear Push,TikTok Ads,2026-05-29,2026-06-12,70778.34,Engagement,VIP
+CMP020,Eid Home & Living Push,Facebook Ads,2026-08-20,2026-09-19,125885.5,Engagement,Returning
+CMP021,Winter Footwear Push,TikTok Ads,2026-05-21,2026-06-19,69480.9,Traffic,Returning
+CMP022,Winter Electronics Push,Google Ads,2026-05-29,2026-06-26,13779.76,Brand Awareness,New
+CMP023,Summer Beauty Push,Instagram Ads,2026-06-01,2026-06-22,98047.15,Conversions,New
+CMP024,Eid Footwear Push,Instagram Ads,2026-08-25,2026-09-11,14948.47,Traffic,VIP
+CMP025,Winter Footwear Push,Facebook Ads,2026-06-13,2026-06-27,45204.85,Traffic,New

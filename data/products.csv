@@ -1,0 +1,61 @@
+product_id,product_name,category,unit_cost,unit_price
+PROD0001,Deluxe Boots,Footwear,2211.52,3382.01
+PROD0002,Original Wall Clock,Home & Living,2354.15,3739.31
+PROD0003,Deluxe Formal Shoes,Footwear,3233.85,4565.11
+PROD0004,Original Backpack,Accessories,1200.23,2516.58
+PROD0005,Essential Perfume,Beauty,2264.41,4099.95
+PROD0006,Urban Wallet,Accessories,2900.56,4713.7
+PROD0007,Everyday Lipstick,Beauty,2968.75,4983.51
+PROD0008,Signature Face Serum,Beauty,1100.62,2070.31
+PROD0009,Everyday Belt,Accessories,3380.72,5596.77
+PROD0010,Classic Wallet,Accessories,352.35,683.9
+PROD0011,Original Sneakers,Footwear,2347.43,5016.23
+PROD0012,Original Wall Clock,Home & Living,3529.06,7018.87
+PROD0013,Original Wallet,Accessories,1560.61,3836.91
+PROD0014,Classic T-Shirt,Apparel,3341.83,5951.29
+PROD0015,Premium Sunglasses,Accessories,852.03,1683.11
+PROD0016,Urban Phone Case,Electronics,738.27,1636.99
+PROD0017,Deluxe Belt,Accessories,1707.4,4081.04
+PROD0018,Premium Lipstick,Beauty,2403.93,3298.86
+PROD0019,Everyday T-Shirt,Apparel,2614.41,4229.01
+PROD0020,Deluxe Jacket,Apparel,943.11,1311.0
+PROD0021,Urban Kurta,Apparel,2850.67,5313.35
+PROD0022,Premium Table Lamp,Home & Living,2915.74,6250.14
+PROD0023,Urban Face Wash,Beauty,3718.47,8349.43
+PROD0024,Signature Sandals,Footwear,724.67,1137.57
+PROD0025,Signature Watch,Accessories,564.22,845.83
+PROD0026,Deluxe Perfume,Beauty,760.11,1616.31
+PROD0027,Classic Jacket,Apparel,2151.75,4072.3
+PROD0028,Premium T-Shirt,Apparel,3017.78,6109.36
+PROD0029,Classic Power Bank,Electronics,3859.07,8888.02
+PROD0030,Original Flip-Flops,Footwear,2432.11,5388.9
+PROD0031,Deluxe Formal Shoes,Footwear,2710.59,6503.48
+PROD0032,Essential Wall Clock,Home & Living,3312.71,8158.76
+PROD0033,Essential Boots,Footwear,1533.24,3226.18
+PROD0034,Classic Wall Clock,Home & Living,2866.59,4718.01
+PROD0035,Deluxe Sweater,Apparel,625.82,1003.11
+PROD0036,Original Face Wash,Beauty,2204.01,5478.6
+PROD0037,Original Smart Watch,Electronics,500.56,962.14
+PROD0038,Everyday Power Bank,Electronics,3111.96,4805.71
+PROD0039,Classic Shalwar Kameez,Apparel,1921.03,4106.97
+PROD0040,Signature Flip-Flops,Footwear,2552.83,4051.74
+PROD0041,Premium Boots,Footwear,350.6,627.43
+PROD0042,Original Formal Shoes,Footwear,3804.12,7902.11
+PROD0043,Original Wall Clock,Home & Living,1379.89,2961.93
+PROD0044,Urban Storage Box,Home & Living,1201.8,2357.35
+PROD0045,Signature Sweater,Apparel,2180.49,5135.47
+PROD0046,Signature Bluetooth Speaker,Electronics,3223.02,5794.77
+PROD0047,Original Earbuds,Electronics,1346.5,2232.86
+PROD0048,Deluxe Watch,Accessories,1952.23,3672.55
+PROD0049,Urban Hair Oil,Beauty,3751.55,8791.84
+PROD0050,Classic Bedsheet Set,Home & Living,1716.99,3995.81
+PROD0051,Deluxe Table Lamp,Home & Living,3055.41,6557.75
+PROD0052,Essential Bluetooth Speaker,Electronics,2132.72,2867.28
+PROD0053,Original Bluetooth Speaker,Electronics,3534.5,6462.36
+PROD0054,Everyday Face Serum,Beauty,2973.04,5327.61
+PROD0055,Deluxe Cap,Accessories,2037.12,5017.52
+PROD0056,Deluxe Perfume,Beauty,597.17,1011.77
+PROD0057,Classic Storage Box,Home & Living,2619.16,6194.12
+PROD0058,Urban Cap,Accessories,553.16,1138.07
+PROD0059,Premium Face Wash,Beauty,634.4,1569.51
+PROD0060,Classic Kurta,Apparel,915.55,1519.23
