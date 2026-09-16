@@ -21,7 +21,7 @@ bizpulse/
 ├── scripts/
 │   ├── generate_data.py       # (Re)generates the CSVs in data/
 │   └── load_to_mysql.py       # Loads the CSVs into the MySQL warehouse
-├── docker-compose.yml         # Local MySQL + Adminer (DB viewer)
+├── docker-compose.yml         # Local MySQL + Adminer + Kafka
 ├── requirements.txt
 └── .env.example
 ```
@@ -62,8 +62,38 @@ python scripts/generate_data.py --customers 500 --days 180
 
 Then re-run `python scripts/load_to_mysql.py` to reload the warehouse.
 
+## Streaming with Kafka (optional, real-time path)
+
+`kafka/producer.py` streams rows from `data/sales_orders.csv` into a Kafka
+topic one at a time, simulating live orders. `kafka/consumer.py` listens on
+that topic and upserts each order into `fact_sales` as it arrives, instead of
+waiting for the next batch run of `load_to_mysql.py`.
+
+```bash
+docker compose up -d          # now also starts a local Kafka broker on :9092
+python kafka/consumer.py      # run this first, in one terminal — it waits for messages
+python kafka/producer.py      # run this in a second terminal — it starts sending orders
+```
+
+## Heavier processing with PySpark (optional, for larger data volumes)
+
+`spark/transform_spark.py` is a Spark version of the transform logic in
+`load_to_mysql.py` — same cogs/margin/SLA calculations, but computed as Spark
+DataFrame operations that can scale across a cluster once a single day's data
+no longer fits comfortably in memory on one machine.
+
+```bash
+pip install pyspark
+spark-submit --packages mysql:mysql-connector-java:8.0.33 spark/transform_spark.py
+```
+
+Note: this writes in append mode via Spark's JDBC writer, which does not
+upsert like `load_to_mysql.py` does — running it twice on the same data will
+duplicate rows unless you truncate the target tables first. It's meant as a
+starting point for a bigger-data version of the pipeline, not a drop-in
+replacement for the incremental loader yet.
+
 ## What's next
 
-Once the warehouse and dashboard are working, Kafka/PySpark/Airflow can be
-layered in later if the data volume or need for real-time updates actually
-calls for it — not needed to get the first working version live.
+Airflow (scheduling/orchestration) can still be layered in later if you want
+these steps running automatically instead of by hand.

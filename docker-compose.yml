@@ -22,5 +22,21 @@ services:
     depends_on:
       - mysql
 
+  # Added: local single-node Kafka (KRaft mode, no separate Zookeeper needed)
+  # for kafka/producer.py and kafka/consumer.py to talk to during development.
+  kafka:
+    image: bitnami/kafka:3.7
+    container_name: bizpulse-kafka
+    restart: unless-stopped
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_CFG_NODE_ID: "0"
+      KAFKA_CFG_PROCESS_ROLES: "controller,broker"
+      KAFKA_CFG_LISTENERS: "PLAINTEXT://:9092,CONTROLLER://:9093"
+      KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092"
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: "0@kafka:9093"
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+
 volumes:
   bizpulse_mysql_data:

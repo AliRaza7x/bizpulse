@@ -1,14 +1,4 @@
-"""
-Loads the CSVs in data/ into the MySQL warehouse created by sql/create_warehouse.sql.
-
-Run once the warehouse schema exists:
-    mysql -u root -p < sql/create_warehouse.sql
-    python scripts/load_to_mysql.py
-
-Reads DB connection info from .env (copy .env.example -> .env first).
-"""
 import os
-
 import pandas as pd
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text

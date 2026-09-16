@@ -1,13 +1,8 @@
--- Run this once in MySQL to create the database and every table.
--- After this, run `python scripts/load_to_mysql.py` to fill it from the CSVs.
-
 CREATE DATABASE IF NOT EXISTS bizpulse
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
 USE bizpulse;
-
--- ===================== DIMENSION TABLES =====================
 
 CREATE TABLE IF NOT EXISTS dim_customer (
     customer_id       VARCHAR(20) PRIMARY KEY,
@@ -48,8 +43,6 @@ CREATE TABLE IF NOT EXISTS dim_date (
     year_num       INT,
     is_weekend     BOOLEAN
 );
-
--- ===================== FACT TABLES =====================
 
 CREATE TABLE IF NOT EXISTS fact_sales (
     order_id        VARCHAR(20) PRIMARY KEY,
@@ -121,8 +114,6 @@ CREATE TABLE IF NOT EXISTS fact_support_tickets (
     FOREIGN KEY (customer_id) REFERENCES dim_customer(customer_id),
     INDEX idx_ft_date (date_key)
 );
-
--- ===================== READY-MADE METRIC VIEWS (for Power BI) =====================
 
 CREATE OR REPLACE VIEW vw_monthly_revenue AS
 SELECT d.year_num, d.month_num, d.month_name,
