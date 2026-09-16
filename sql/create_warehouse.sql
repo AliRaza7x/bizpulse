@@ -1,8 +1,3 @@
-/*
-Added UNIQUE KEY on fact_inventory and fact_marketing_spend so the loader
-(scripts/load_to_mysql.py) can upsert instead of truncate-and-reload. Without
-these, MySQL has no way to detect "this row already exists" on re-runs.
-*/
 CREATE DATABASE IF NOT EXISTS bizpulse
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;

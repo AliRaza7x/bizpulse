@@ -1,9 +1,3 @@
-"""
-Changed from truncate+reload to incremental upsert (INSERT ... ON DUPLICATE
-KEY UPDATE). Re-running this after new/updated CSVs only inserts new rows and
-updates changed ones — existing history is never wiped. Also added basic
-null/duplicate key validation before loading.
-"""
 import os
 
 import numpy as np

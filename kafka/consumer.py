@@ -1,8 +1,3 @@
-"""
-Listens on the `sales_orders` Kafka topic and upserts each incoming order into
-fact_sales as it arrives, using the same ON DUPLICATE KEY UPDATE approach as
-scripts/load_to_mysql.py. Assumes dim_customer/dim_product are already loaded.
-"""
 import json
 import os
 
@@ -13,7 +8,7 @@ from sqlalchemy import create_engine
 
 load_dotenv()
 
-KAFKA_BROKER = os.getenv("KAFKA_BROKER", "localhost:9092")
+KAFKA_BROKER = os.getenv("KAFKA_BROKER", "localhost:9094")
 TOPIC = "sales_orders"
 
 DB_HOST = os.getenv("DB_HOST", "127.0.0.1")

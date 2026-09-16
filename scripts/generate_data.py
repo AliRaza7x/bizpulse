@@ -1,12 +1,3 @@
-"""
-Generates the sample CSVs in data/ — sales, inventory, marketing, and support
-data with shared keys (customer_id, product_id, campaign_id) so joins across
-files actually mean something.
-
-Usage:
-    python scripts/generate_data.py
-    python scripts/generate_data.py --customers 500 --days 180
-"""
 import argparse
 import random
 from datetime import datetime, timedelta

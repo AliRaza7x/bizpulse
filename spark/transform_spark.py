@@ -1,9 +1,3 @@
-"""
-Spark version of the transform in scripts/load_to_mysql.py — computes
-cogs/gross_margin/SLA/reorder flags using Spark DataFrames instead of pandas,
-for when a day's data no longer fits comfortably in memory on one machine.
-Writes results into MySQL via JDBC (needs the MySQL connector jar, see README).
-"""
 import os
 
 from dotenv import load_dotenv

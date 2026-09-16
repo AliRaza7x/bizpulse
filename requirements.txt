@@ -4,7 +4,5 @@ sqlalchemy>=2.0
 pymysql>=1.1
 python-dotenv>=1.0
 faker>=25.0
-
-# Added: for kafka/producer.py, kafka/consumer.py and spark/transform_spark.py
 kafka-python>=2.0
 pyspark>=3.5

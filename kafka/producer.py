@@ -1,8 +1,3 @@
-"""
-Streams rows from data/sales_orders.csv into the Kafka topic `sales_orders`,
-one at a time with a small delay, to simulate live orders coming in instead of
-a static file. Pair this with kafka/consumer.py, which reads the same topic.
-"""
 import json
 import os
 import time
@@ -13,7 +8,7 @@ from kafka import KafkaProducer
 
 load_dotenv()
 
-KAFKA_BROKER = os.getenv("KAFKA_BROKER", "localhost:9092")
+KAFKA_BROKER = os.getenv("KAFKA_BROKER", "localhost:9094")
 TOPIC = "sales_orders"
 
 
