@@ -12,6 +12,23 @@ It ships with realistic sample data (300 customers, 1,500 orders, 60 products,
 are all linked to each other by shared IDs, so the numbers actually add up
 when you build reports.
 
+## Screenshots
+
+**Pipeline run:**
+![Load output](screenshots/load_output.png)
+
+**Warehouse tables:**
+![Warehouse schema](screenshots/warehouse_tables.png)
+
+**Monthly revenue view:**
+![Revenue](screenshots/revenue_view.png)
+
+**Stock health (reorder alerts):**
+![Stock health](screenshots/stock_health.png)
+
+**Campaign ROI:**
+![Campaign ROI](screenshots/campaign_roi.png)
+
 ## What's in here
 
 ```
