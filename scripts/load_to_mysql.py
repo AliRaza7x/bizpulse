@@ -1,7 +1,15 @@
+"""
+Changed from truncate+reload to incremental upsert (INSERT ... ON DUPLICATE
+KEY UPDATE). Re-running this after new/updated CSVs only inserts new rows and
+updates changed ones — existing history is never wiped. Also added basic
+null/duplicate key validation before loading.
+"""
 import os
+
+import numpy as np
 import pandas as pd
 from dotenv import load_dotenv
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 
 load_dotenv()
 
@@ -33,14 +41,45 @@ def to_date_key(series: pd.Series) -> pd.Series:
     return pd.to_datetime(series).dt.strftime("%Y%m%d").astype(int)
 
 
-def truncate_all():
-    with engine.begin() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        for t in ["fact_sales", "fact_inventory", "fact_marketing_spend",
-                  "fact_support_tickets", "dim_customer", "dim_product",
-                  "dim_campaign", "dim_date"]:
-            conn.execute(text(f"TRUNCATE TABLE {t}"))
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+def validate(df: pd.DataFrame, key_cols: list, label: str) -> pd.DataFrame:
+    before = len(df)
+    df = df.dropna(subset=key_cols)
+    if len(df) < before:
+        print(f"  [warn] {label}: dropped {before - len(df)} rows with null {key_cols}")
+    before = len(df)
+    df = df.drop_duplicates(subset=key_cols, keep="last")
+    if len(df) < before:
+        print(f"  [warn] {label}: dropped {before - len(df)} duplicate rows on {key_cols}")
+    return df
+
+
+def upsert_dataframe(df: pd.DataFrame, table: str, key_cols: list):
+    if df.empty:
+        print(f"  {table}: nothing to load")
+        return
+
+    df = df.replace({np.nan: None, pd.NaT: None})
+    cols = list(df.columns)
+    col_list = ", ".join(f"`{c}`" for c in cols)
+    placeholders = ", ".join(["%s"] * len(cols))
+    update_cols = [c for c in cols if c not in key_cols]
+    sql = f"INSERT INTO `{table}` ({col_list}) VALUES ({placeholders})"
+    if update_cols:
+        update_clause = ", ".join(f"`{c}`=VALUES(`{c}`)" for c in update_cols)
+        sql += f" ON DUPLICATE KEY UPDATE {update_clause}"
+
+    data = [tuple(row) for row in df.itertuples(index=False, name=None)]
+
+    raw_conn = engine.raw_connection()
+    try:
+        cursor = raw_conn.cursor()
+        cursor.executemany(sql, data)
+        raw_conn.commit()
+        cursor.close()
+    finally:
+        raw_conn.close()
+
+    print(f"  upserted {len(df):,} rows -> {table}")
 
 
 def main():
@@ -52,6 +91,15 @@ def main():
     inventory = pd.read_csv("data/inventory_stock.csv", parse_dates=["snapshot_date"])
     spend = pd.read_csv("data/marketing_daily_spend.csv", parse_dates=["date"])
     tickets = pd.read_csv("data/support_tickets.csv", parse_dates=["created_date"])
+
+    print("Validating (null/duplicate keys)...")
+    customers = validate(customers, ["customer_id"], "customers")
+    products = validate(products, ["product_id"], "products")
+    campaigns = validate(campaigns, ["campaign_id"], "campaigns")
+    orders = validate(orders, ["order_id"], "sales_orders")
+    tickets = validate(tickets, ["ticket_id"], "support_tickets")
+    inventory = validate(inventory, ["snapshot_date", "product_id", "warehouse_location"], "inventory_stock")
+    spend = validate(spend, ["date", "campaign_id"], "marketing_daily_spend")
 
     print("Building date dimension...")
     all_dates = pd.concat([
@@ -94,31 +142,20 @@ def main():
         "satisfaction_rating", "is_sla_breached",
     ]]
 
-    print("Clearing existing warehouse data...")
-    truncate_all()
+    print("\nUpserting dimensions...")
+    upsert_dataframe(dim_date, "dim_date", ["date_key"])
+    upsert_dataframe(customers, "dim_customer", ["customer_id"])
+    upsert_dataframe(products, "dim_product", ["product_id"])
+    upsert_dataframe(campaigns, "dim_campaign", ["campaign_id"])
 
-    print("Loading dimensions...")
-    dim_date.to_sql("dim_date", engine, if_exists="append", index=False, chunksize=1000)
-    customers.to_sql("dim_customer", engine, if_exists="append", index=False, chunksize=1000)
-    products.to_sql("dim_product", engine, if_exists="append", index=False, chunksize=1000)
-    campaigns.to_sql("dim_campaign", engine, if_exists="append", index=False, chunksize=1000)
+    print("\nUpserting facts...")
+    upsert_dataframe(fact_sales, "fact_sales", ["order_id"])
+    upsert_dataframe(fact_inventory, "fact_inventory", ["snapshot_date", "product_id", "warehouse_location"])
+    upsert_dataframe(fact_marketing, "fact_marketing_spend", ["spend_date", "campaign_id"])
+    upsert_dataframe(fact_support, "fact_support_tickets", ["ticket_id"])
 
-    print("Loading facts...")
-    fact_sales.to_sql("fact_sales", engine, if_exists="append", index=False, chunksize=1000)
-    fact_inventory.to_sql("fact_inventory", engine, if_exists="append", index=False, chunksize=1000)
-    fact_marketing.to_sql("fact_marketing_spend", engine, if_exists="append", index=False, chunksize=1000)
-    fact_support.to_sql("fact_support_tickets", engine, if_exists="append", index=False, chunksize=1000)
-
-    print("\nDone. Warehouse loaded:")
-    print(f"  dim_customer          {len(customers):>6,}")
-    print(f"  dim_product           {len(products):>6,}")
-    print(f"  dim_campaign          {len(campaigns):>6,}")
-    print(f"  dim_date              {len(dim_date):>6,}")
-    print(f"  fact_sales            {len(fact_sales):>6,}")
-    print(f"  fact_inventory        {len(fact_inventory):>6,}")
-    print(f"  fact_marketing_spend  {len(fact_marketing):>6,}")
-    print(f"  fact_support_tickets  {len(fact_support):>6,}")
-    print("\nConnect Power BI to this MySQL database and point at the dim_/fact_/vw_ tables.")
+    print("\nDone. Warehouse is up to date (existing rows updated, new rows added, nothing wiped).")
+    print("Connect Power BI to this MySQL database and point at the dim_/fact_/vw_ tables.")
 
 
 if __name__ == "__main__":

@@ -1,3 +1,8 @@
+/*
+Added UNIQUE KEY on fact_inventory and fact_marketing_spend so the loader
+(scripts/load_to_mysql.py) can upsert instead of truncate-and-reload. Without
+these, MySQL has no way to detect "this row already exists" on re-runs.
+*/
 CREATE DATABASE IF NOT EXISTS bizpulse
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
@@ -78,6 +83,7 @@ CREATE TABLE IF NOT EXISTS fact_inventory (
     is_below_reorder    BOOLEAN,
     FOREIGN KEY (date_key) REFERENCES dim_date(date_key),
     FOREIGN KEY (product_id) REFERENCES dim_product(product_id),
+    UNIQUE KEY uq_inventory (snapshot_date, product_id, warehouse_location),
     INDEX idx_fi_date (date_key)
 );
 
@@ -94,6 +100,7 @@ CREATE TABLE IF NOT EXISTS fact_marketing_spend (
     conversions       INT,
     FOREIGN KEY (date_key) REFERENCES dim_date(date_key),
     FOREIGN KEY (campaign_id) REFERENCES dim_campaign(campaign_id),
+    UNIQUE KEY uq_marketing_spend (spend_date, campaign_id),
     INDEX idx_fm_date (date_key)
 );
 

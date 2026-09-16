@@ -41,7 +41,7 @@ docker compose up -d
 mysql -h 127.0.0.1 -u root -p bizpulse < sql/create_warehouse.sql
 # (password is whatever you set in .env, default: bizpulse_root_pw)
 
-# 4. Load the data
+# 4. Load the data (incremental — safe to re-run after new/changed CSV data)
 python scripts/load_to_mysql.py
 ```
 
